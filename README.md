@@ -25,4 +25,4 @@ Little bash framework to help automate projects dockerization
 
 ## License
 
-  * (?)
+  * [MIT](LICENSE)

@@ -15,6 +15,13 @@ readonly DOCKER_CONSOLE_SCRIPT_NAME=$(basename $0)
 readonly DOCKER_CONSOLE_ARGS=($@)
 readonly DOCKER_CONSOLE_ARGNUM=$#
 
+if [ -z ${CUSTOM_DOCKERS_PROJECTS_PREFIX} ]
+then
+  readonly DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX=$CUSTOM_DOCKERS_PROJECTS_PREFIX
+else
+  readonly DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX="adshares"
+fi
+
 # CONSOLE general help
 
 function console_help {
@@ -156,7 +163,7 @@ function console_repo_host_proxy {
 function console_docker_compose_build {
 
   cd $DOCKER_CONSOLE_SCRIPT_DIR/$1
-  docker-compose -p "adshares-$1" build
+  docker-compose -p "$DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX-$1" build
   cd $DOCKER_CONSOLE_SCRIPT_DIR
 }
 
@@ -167,7 +174,7 @@ function console_docker_compose_build {
 function console_docker_compose_up {
 
   cd $DOCKER_CONSOLE_SCRIPT_DIR/$1
-  docker-compose -p "adshares-$1" up -d
+  docker-compose -p "$DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX-$1" up -d
   if [ -e ./up.sh ]
   then
     ./up.sh
@@ -180,7 +187,11 @@ function console_docker_compose_up {
 function console_docker_compose_down {
 
   cd $DOCKER_CONSOLE_SCRIPT_DIR/$1
-  docker-compose -p "adshares-$1" down
+  docker-compose -p "$DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX-$1" down
+  if [ -e ./down.sh ]
+  then
+    ./down.sh
+  fi
   cd $DOCKER_CONSOLE_SCRIPT_DIR
 }
 
@@ -189,7 +200,7 @@ function console_docker_compose_down {
 function console_docker_compose_start {
 
   cd $DOCKER_CONSOLE_SCRIPT_DIR/$1
-  docker-compose -p "adshares-$1" start
+  docker-compose -p "$DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX-$1" start
   if [ -e ./start.sh ]
   then
     ./start.sh
@@ -202,7 +213,11 @@ function console_docker_compose_start {
 function console_docker_compose_stop {
 
   cd $DOCKER_CONSOLE_SCRIPT_DIR/$1
-  docker-compose -p "adshares-$1" stop
+  docker-compose -p "$DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX-$1" stop
+  if [ -e ./stop.sh ]
+  then
+    ./stop.sh
+  fi
   cd $DOCKER_CONSOLE_SCRIPT_DIR
 }
 

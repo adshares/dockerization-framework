@@ -174,10 +174,14 @@ function console_docker_compose_build {
 function console_docker_compose_up {
 
   cd $DOCKER_CONSOLE_SCRIPT_DIR/$1
-  docker-compose -p "$DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX-$1" up -d
-  if [ -e ./up.sh ]
+  if [ -e ./pre-up.sh ]
   then
-    ./up.sh
+    ./pre-up.sh
+  fi
+  docker-compose -p "$DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX-$1" up -d
+  if [ -e ./post-up.sh ]
+  then
+    ./post-up.sh
   fi
   cd $DOCKER_CONSOLE_SCRIPT_DIR
 }
@@ -187,10 +191,14 @@ function console_docker_compose_up {
 function console_docker_compose_down {
 
   cd $DOCKER_CONSOLE_SCRIPT_DIR/$1
-  docker-compose -p "$DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX-$1" down
-  if [ -e ./down.sh ]
+  if [ -e ./pre-down.sh ]
   then
-    ./down.sh
+    ./pre-down.sh
+  fi
+  docker-compose -p "$DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX-$1" down
+  if [ -e ./post-down.sh ]
+  then
+    ./post-down.sh
   fi
   cd $DOCKER_CONSOLE_SCRIPT_DIR
 }
@@ -200,10 +208,14 @@ function console_docker_compose_down {
 function console_docker_compose_start {
 
   cd $DOCKER_CONSOLE_SCRIPT_DIR/$1
-  docker-compose -p "$DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX-$1" start
-  if [ -e ./start.sh ]
+  if [ -e ./pre-start.sh ]
   then
-    ./start.sh
+    ./pre-start.sh
+  fi
+  docker-compose -p "$DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX-$1" start
+  if [ -e ./post-start.sh ]
+  then
+    ./post-start.sh
   fi
   cd $DOCKER_CONSOLE_SCRIPT_DIR
 }
@@ -213,10 +225,14 @@ function console_docker_compose_start {
 function console_docker_compose_stop {
 
   cd $DOCKER_CONSOLE_SCRIPT_DIR/$1
-  docker-compose -p "$DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX-$1" stop
-  if [ -e ./stop.sh ]
+  if [ -e ./pre-stop.sh ]
   then
-    ./stop.sh
+    ./pre-stop.sh
+  fi
+  docker-compose -p "$DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX-$1" stop
+  if [ -e ./post-stop.sh ]
+  then
+    ./post-stop.sh
   fi
   cd $DOCKER_CONSOLE_SCRIPT_DIR
 }

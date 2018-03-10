@@ -15,13 +15,6 @@ readonly DOCKER_CONSOLE_SCRIPT_NAME=$(basename $0)
 readonly DOCKER_CONSOLE_ARGS=($@)
 readonly DOCKER_CONSOLE_ARGNUM=$#
 
-if [ -z ${CUSTOM_DOCKERS_PROJECTS_PREFIX} ]
-then
-  readonly DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX="adshares"
-else
-  readonly DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX=$CUSTOM_DOCKERS_PROJECTS_PREFIX
-fi
-
 # CONSOLE general help
 
 function console_help {
@@ -158,6 +151,20 @@ function console_repo_host_proxy {
 # TODO (yodahack) : func configure repo settings for dev dockerization
 # TODO (yodahack) : func check if (ALL) repo(s) is configured
 
+# DOCKER PROJECT
+
+function console_docker_project_var_set {
+
+  if [ -e $DOCKER_CONSOLE_SCRIPT_DIR/$1/docker-project ]
+  then
+    readonly DOCKER_CONSOLE_DOCKER_PROJECT=`head -n 1 $DOCKER_CONSOLE_SCRIPT_DIR/$1/docker-project`
+    return 0;
+  fi
+
+  # fallback
+  readonly DOCKER_CONSOLE_DOCKER_PROJECT="adshares-$1"
+}
+
 # BUILD
 
 function console_docker_compose_build {
@@ -178,7 +185,7 @@ function console_docker_compose_up {
   then
     ./pre-up.sh
   fi
-  docker-compose -p "$DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX-$1" up -d
+  docker-compose -p "$DOCKER_CONSOLE_DOCKER_PROJECT" up -d
   if [ -e ./post-up.sh ]
   then
     ./post-up.sh
@@ -195,7 +202,7 @@ function console_docker_compose_down {
   then
     ./pre-down.sh
   fi
-  docker-compose -p "$DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX-$1" down
+  docker-compose -p "$DOCKER_CONSOLE_DOCKER_PROJECT" down
   if [ -e ./post-down.sh ]
   then
     ./post-down.sh
@@ -212,7 +219,7 @@ function console_docker_compose_start {
   then
     ./pre-start.sh
   fi
-  docker-compose -p "$DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX-$1" start
+  docker-compose -p "$DOCKER_CONSOLE_DOCKER_PROJECT" start
   if [ -e ./post-start.sh ]
   then
     ./post-start.sh
@@ -229,7 +236,7 @@ function console_docker_compose_stop {
   then
     ./pre-stop.sh
   fi
-  docker-compose -p "$DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX-$1" stop
+  docker-compose -p "$DOCKER_CONSOLE_DOCKER_PROJECT" stop
   if [ -e ./post-stop.sh ]
   then
     ./post-stop.sh
@@ -273,30 +280,35 @@ do
     build)
       console_repo_exist $2
       console_repo_link_check $2
+      console_docker_project_var_set $2
       console_docker_compose_build $2
       exit 0
       ;;
     up)
       console_repo_exist $2
       console_repo_link_check $2
+      console_docker_project_var_set $2
       console_docker_compose_up $2
       exit 0
       ;;
     down)
       console_repo_exist $2
       console_repo_link_check $2
+      console_docker_project_var_set $2
       console_docker_compose_down $2
       exit 0
       ;;
     start)
       console_repo_exist $2
       console_repo_link_check $2
+      console_docker_project_var_set $2
       console_docker_compose_start $2
       exit 0
       ;;
     stop)
       console_repo_exist $2
       console_repo_link_check $2
+      console_docker_project_var_set $2
       console_docker_compose_stop $2
       exit 0
       ;;

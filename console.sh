@@ -170,7 +170,7 @@ function console_docker_project_var_set {
 function console_docker_compose_build {
 
   cd $DOCKER_CONSOLE_SCRIPT_DIR/$1
-  docker-compose -p "$DOCKER_CONSOLE_DOCKERS_PROJECTS_PREFIX-$1" build
+  docker-compose -p "$DOCKER_CONSOLE_DOCKER_PROJECT" build
   cd $DOCKER_CONSOLE_SCRIPT_DIR
 }
 

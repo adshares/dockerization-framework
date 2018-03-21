@@ -68,22 +68,23 @@ function console_repo_exist {
 
 function console_repo_link {
   dev_repo_link="$DOCKER_CONSOLE_SCRIPT_DIR"/"$1"/dev_repo
-  if [ -e $dev_repo_link ]; then
+  link_path=$(realpath $2)
+  if [ -L $dev_repo_link ]; then
     dev_repo_link_target=$(readlink -f $dev_repo_link)
     echo
     echo "Error: Already linked repository $1 with $dev_repo_link_target"
     echo
     exit 1
   fi
-  if [ ! -e "$2/.git" ]; then
+  if [ ! -e "$link_path/.git" ]; then
     echo
-    echo "Error: not a valid git repository path: $2"
+    echo "Error: not a valid git repository path: $link_path"
     echo
     exit 1
   fi
-  ln -s $2 $dev_repo_link
+  ln -s $link_path $dev_repo_link
   cp "$DOCKER_CONSOLE_SCRIPT_DIR"/"$1"/docker-compose.yml.tpl "$DOCKER_CONSOLE_SCRIPT_DIR"/"$1"/docker-compose.yml
-  SED_VAR=$(sed 's/\//\\\//g' <<< "$2")
+  SED_VAR=$(sed 's/\//\\\//g' <<< "$link_path")
   sed -i "s/DEV_REPO/$SED_VAR/g" "$DOCKER_CONSOLE_SCRIPT_DIR"/"$1"/docker-compose.yml
   echo
   echo "Project linked with repository directory as requested"

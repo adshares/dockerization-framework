@@ -1,0 +1,20 @@
+version: '2'
+services:
+  percona57:
+    image: "percona:5.7"
+    ports:
+      - "127.0.0.1:11111:3306"
+    networks:
+      default:
+        ipv4_address: 172.16.111.11
+    environment:
+      - MYSQL_ROOT_PASSWORD=example
+      - MYSQL_DATABASE=example
+      - MYSQL_PASSWORD=
+    volumes:
+      - ./var/percona57:/var/lib/mysql
+
+networks:
+  default:
+    external:
+      name: dockerization_net

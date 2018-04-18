@@ -13,6 +13,7 @@ services:
       - MYSQL_PASSWORD=
     volumes:
       - ./var/percona57:/var/lib/mysql
+      - ./etc:/etc/mysql/percona-server.conf.d
 
 networks:
   default:

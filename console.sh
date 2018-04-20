@@ -30,12 +30,12 @@ function console_help {
     echo " * [link] (PROJECT-NAME) (PATH) - link your project with your workspace repository dir"
     echo " * [proxy] (PROJECT-NAME) (PATH) - link your project host NGINX proxy configuration to your sites-enabled (requires sudo access and NGINX)"
     echo
-    echo " * [build] (PROJECT-NAME) - TODO (build ALL)"
+    echo " * [build] (PROJECT-NAME)"
     echo " * [rebuild] (PROJECT-NAME)"
-    echo " * [up] (PROJECT-NAME) - TODO (up ALL)"
-    echo " * [down] (PROJECT-NAME) - TODO (down ALL)"
-    echo " * [start] (PROJECT-NAME) - TODO (start ALL)"
-    echo " * [stop] (PROJECT-NAME) - TODO (stop ALL)"
+    echo " * [up] (PROJECT-NAME)"
+    echo " * [down] (PROJECT-NAME)"
+    echo " * [start] (PROJECT-NAME)"
+    echo " * [stop] (PROJECT-NAME)"
     echo
     echo
 }

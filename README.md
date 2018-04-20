@@ -13,7 +13,53 @@ Little bash framework to help automate projects dockerization
 
 ## How to use
 
-  (incoming)
+### Dockerization repo
+
+ Create a separate repository for your projects dockerization. Check [example](your-repo-example)
+
+### Framework installation
+
+ Once you have created your repo based on our example, run
+
+```
+ $ ./framework-install.sh
+```
+
+### Development example setup
+
+Please check contents of [development](your-repo-example/development) directory
+
+### Testing example setup
+
+Please check contents of [testing](your-repo-example/testing) directory
+
+### Usage
+
+```
+$ cd development
+$ ./console.sh help
+
+Usage: console.sh COMMAND ARGUMENTS OPTIONS
+
+Available commands (order of usage):
+
+ * [help] - displays this output
+ * [list] - list available PROJECTS
+
+ * [link] (PROJECT-NAME) (PATH) - link your project with your workspace repository dir
+ * [proxy] (PROJECT-NAME) (PATH) - link your project host NGINX proxy configuration to your sites-enabled (requires sudo access and NGINX)
+
+ * [build] (PROJECT-NAME)
+ * [rebuild] (PROJECT-NAME)
+ * [up] (PROJECT-NAME)
+ * [down] (PROJECT-NAME)
+ * [start] (PROJECT-NAME)
+ * [stop] (PROJECT-NAME)
+
+```
+
+(to be continued)
+
 
 ## Technical Support
 

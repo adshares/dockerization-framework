@@ -31,6 +31,7 @@ function console_help {
     echo " * [proxy] (PROJECT-NAME) (PATH) - link your project host NGINX proxy configuration to your sites-enabled (requires sudo access and NGINX)"
     echo
     echo " * [build] (PROJECT-NAME) - TODO (build ALL)"
+    echo " * [rebuild] (PROJECT-NAME)"
     echo " * [up] (PROJECT-NAME) - TODO (up ALL)"
     echo " * [down] (PROJECT-NAME) - TODO (down ALL)"
     echo " * [start] (PROJECT-NAME) - TODO (start ALL)"
@@ -185,6 +186,23 @@ function console_docker_compose_build {
 
 # TODO (yodahack) : func build all selected(/ALL) repo(s) containers
 
+# REBUILD
+
+function console_docker_compose_rebuild {
+
+  cd $DOCKER_CONSOLE_SCRIPT_DIR/$1
+  if [ -e ./pre-build.sh ]
+  then
+    ./pre-build.sh
+  fi
+  docker-compose -p "$DOCKER_CONSOLE_DOCKER_PROJECT" build --no-cache
+  if [ -e ./post-build.sh ]
+  then
+    ./post-build.sh
+  fi
+  cd $DOCKER_CONSOLE_SCRIPT_DIR
+}
+
 # UP
 
 function console_docker_compose_up {
@@ -291,6 +309,13 @@ do
       console_repo_link_check $2
       console_docker_project_var_set $2
       console_docker_compose_build $2
+      exit 0
+      ;;
+    rebuild)
+      console_repo_exist $2
+      console_repo_link_check $2
+      console_docker_project_var_set $2
+      console_docker_compose_rebuild $2
       exit 0
       ;;
     up)

@@ -8,12 +8,15 @@
 
 
 # GLOBAL SETTINGS
-readonly DOCKER_CONSOLE_INITIAL_DIR="$( pwd )"
-readonly DOCKER_CONSOLE_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+if [ -z "$DOCKER_CONSOLE_INITIAL_DIR" ]
+then
+  readonly DOCKER_CONSOLE_INITIAL_DIR="$( pwd )"
+  readonly DOCKER_CONSOLE_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-readonly DOCKER_CONSOLE_SCRIPT_NAME=$(basename $0)
-readonly DOCKER_CONSOLE_ARGS=($@)
-readonly DOCKER_CONSOLE_ARGNUM=$#
+  readonly DOCKER_CONSOLE_SCRIPT_NAME=$(basename $0)
+  readonly DOCKER_CONSOLE_ARGS=($@)
+  readonly DOCKER_CONSOLE_ARGNUM=$#
+fi
 
 # CONSOLE general help
 

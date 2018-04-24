@@ -27,7 +27,6 @@ function console_help {
     echo " * [help] - displays this output"
     echo " * [list] - list available PROJECTS"
     echo
-    echo " * [link] (PROJECT-NAME) (PATH) - link your project with your workspace repository dir"
     echo " * [link] (PROJECT-NAME) (REPO-PATH) - link your project with project repository DEV_REPO"
     # echo " * [link] (PROJECT-NAME) (REPO-PATH) (REPO_SYMBOL) - link your project with selected project repository REPO_SYMBOL"
     echo " * [proxy] (PROJECT-NAME) (PATH) - link your project host NGINX proxy configuration to your sites-enabled (requires sudo access and NGINX)"

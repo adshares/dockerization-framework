@@ -28,6 +28,8 @@ function console_help {
     echo " * [list] - list available PROJECTS"
     echo
     echo " * [link] (PROJECT-NAME) (PATH) - link your project with your workspace repository dir"
+    echo " * [link] (PROJECT-NAME) (REPO-PATH) - link your project with project repository DEV_REPO"
+    # echo " * [link] (PROJECT-NAME) (REPO-PATH) (REPO_SYMBOL) - link your project with selected project repository REPO_SYMBOL"
     echo " * [proxy] (PROJECT-NAME) (PATH) - link your project host NGINX proxy configuration to your sites-enabled (requires sudo access and NGINX)"
     echo
     echo " * [build] (PROJECT-NAME)"
@@ -68,10 +70,10 @@ function console_repo_exist {
 }
 
 function console_repo_link {
-  dev_repo_link="$DOCKER_CONSOLE_SCRIPT_DIR"/"$1"/dev_repo
+  dev_repo_link="$DOCKER_CONSOLE_SCRIPT_DIR"/"$1"/DEV_REPO
   link_path=$(realpath $2)
-  if [ -L $dev_repo_link ]; then
-    dev_repo_link_target=$(readlink -f $dev_repo_link)
+  if [ -e $dev_repo_link ]; then
+    dev_repo_link_target=$(cat $dev_repo_link)
     echo
     echo "Error: Already linked repository $1 with $dev_repo_link_target"
     echo
@@ -83,7 +85,7 @@ function console_repo_link {
     echo
     exit 1
   fi
-  ln -s $link_path $dev_repo_link
+  echo $link_path > $dev_repo_link
   cp "$DOCKER_CONSOLE_SCRIPT_DIR"/"$1"/docker-compose.yml.tpl "$DOCKER_CONSOLE_SCRIPT_DIR"/"$1"/docker-compose.yml
   SED_VAR=$(sed 's/\//\\\//g' <<< "$link_path")
   sed -i "s/DEV_REPO/$SED_VAR/g" "$DOCKER_CONSOLE_SCRIPT_DIR"/"$1"/docker-compose.yml
@@ -93,7 +95,7 @@ function console_repo_link {
 }
 
 function console_repo_link_check {
-  dev_repo_link="$DOCKER_CONSOLE_SCRIPT_DIR"/"$1"/dev_repo
+  dev_repo_link="$DOCKER_CONSOLE_SCRIPT_DIR"/"$1"/DEV_REPO
   if [ ! -e $dev_repo_link ]; then
     echo
     echo "Error: Project $1 has no dev repo linked"

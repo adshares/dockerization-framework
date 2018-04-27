@@ -279,14 +279,6 @@ function console_docker_compose_stop {
 
 cd $DOCKER_CONSOLE_SCRIPT_DIR
 
-if [ "$#" -eq 0 ]
-then
-  echo
-  echo "Do you need [help|-h|--help] ?"
-  echo
-  exit 0
-fi
-
 while [ "$#" -gt 0 ]
 do
   case "$1" in
@@ -354,3 +346,8 @@ do
   esac
   shift
 done
+
+echo
+echo "What's up ???"
+echo "Do you need [help|-h|--help] ?"
+echo

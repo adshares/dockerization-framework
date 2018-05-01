@@ -31,6 +31,7 @@ function console_help {
     echo " * [list] - list available PROJECTS"
     echo
     echo " * [link] (PROJECT-NAME) (REPO-PATH) - link your project with project repository DEV_REPO"
+    echo " * [unlink] (PROJECT-NAME) - unlink your project with project repository DEV_REPO"
     # echo " * [link] (PROJECT-NAME) (REPO-PATH) (REPO_SYMBOL) - link your project with selected project repository REPO_SYMBOL"
     echo " * [proxy] (PROJECT-NAME) (PATH) - link your project host NGINX proxy configuration to your sites-enabled (requires sudo access and NGINX)"
     echo
@@ -94,6 +95,20 @@ function console_repo_link {
   echo
   echo "Project linked with repository directory as requested"
   echo
+}
+
+function console_repo_unlink {
+  dev_repo_link="$DOCKER_CONSOLE_SCRIPT_DIR"/"$1"/DEV_REPO
+  if [ -e $dev_repo_link ]; then
+    rm $dev_repo_link
+    if [ $? -eq 0 ]; then
+        echo
+        echo "Project unlinked as requested"
+        echo
+    fi
+  else
+    console_repo_link_check
+  fi
 }
 
 function console_repo_link_check {
@@ -293,6 +308,10 @@ do
     link)
       console_repo_exist $2
       console_repo_link $2 $3
+      exit 0
+      ;;
+    unlink)
+      console_repo_unlink $2
       exit 0
       ;;
     proxy)

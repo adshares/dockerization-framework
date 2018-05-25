@@ -77,6 +77,7 @@ function console_repo_link {
   link_path=$(realpath $2)
   if [ -e $dev_repo_link ]; then
     dev_repo_link_target=$(cat $dev_repo_link)
+	echo
     echo "Already linked repository $1 with $dev_repo_link_target"
 	echo "Unlinking..."
     console_repo_unlink $1

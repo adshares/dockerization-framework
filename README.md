@@ -1,3 +1,7 @@
+// this is depracated
+// the whole project has been merged into [adshares/dockerization](https://github.com/adshares/dockerization)
+
+
 # README @ adshares/dockerization-framework
 
 Little bash framework to help automate projects dockerization
